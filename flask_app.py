@@ -1,8 +1,10 @@
 import newspaper
 import rfeed
 import tqdm
+import time
 from flask import Flask
 from markupsafe import escape
+from newspaper.article import ArticleException
 
 # Import website config
 from config import websites, NUM_ARTICLES_PER_FEED, CACHE_ARTICLES
@@ -30,8 +32,12 @@ def get_site_articles(url):
         articles if not NUM_ARTICLES_PER_FEED else articles[:NUM_ARTICLES_PER_FEED]
     )
 
+    print(articles_to_download)
+
     # Download and process articles
     for article in tqdm.tqdm(articles_to_download):
+        # try:
+        # time.sleep(1)
         article.download()
         article.parse()
         article.nlp()
@@ -45,6 +51,11 @@ def get_site_articles(url):
         )
 
         feed_items.append(feed_item)
+        # except ArticleException as e:
+        #     # If the download fails, just skip so don't lose all the data we've
+        #     # already downloaded.
+        #     print(f"Failed on article {article.title}")
+        #     pass
 
     return feed_items
 
@@ -66,5 +77,6 @@ def get_site_feed(feed_id):
         items=feed_items,
     )
 
-    return feed.rss()
+    # print(feed.rss())
 
+    return feed.rss()
