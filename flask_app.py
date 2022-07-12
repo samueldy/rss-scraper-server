@@ -68,3 +68,7 @@ def get_site_feed(feed_id):
 
     return feed.rss()
 
+
+# Run development server
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
