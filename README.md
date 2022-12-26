@@ -22,7 +22,21 @@ Similar functionality can be easily accomplished within Python, and this small F
 
 ```bash
 cd "directory_where_you_cloned_the_repo"
-FLASK_APP=flask_app flask run
+FLASK_APP=flask_app flask run 
 ```
 
-6. Refresh your RSS reader. You should see progress bars in the terminal running the Flask app as it downloads articles and generates the feed. You should then see stories appear in your RSS reader.
+6. In your RSS reader, add a new feed with the URL set to the Flask development server. This is usually `http://localhost:5000/feeds/<short_name_of_feed>`, where `<short_name_of_feed>` is a top-level key in the `websites` dict in `config.py`. For example, if your `config.py` has this:
+
+```python
+websites = {
+    "ap_main": {
+        "shortname": "AP News Main Page",
+        "fullname": "Associated Press News - Main Page",
+        "url": "https://apnews.com/",
+    },
+}
+```
+
+then you should point your RSS reader to `http://localhost:5000/feeds/ap_main` to get your AP News feed. If you need to serve feeds on a different port, just change the port number at the bottom of `flask_app.py`.
+
+7. Refresh your RSS reader. You should see progress bars in the terminal running the Flask app as it downloads articles and generates the feed. You should then see stories appear in your RSS reader.
