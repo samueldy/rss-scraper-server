@@ -40,7 +40,7 @@ def get_site_articles(url):
             link=article.url,
             description=article.summary,
             creator=", ".join(article.authors),
-            # guid=rfeed.Guid(guid=url),
+            guid=rfeed.Guid(guid=article.url.split("?")[0]),
             pubDate=article.publish_date,
         )
 
